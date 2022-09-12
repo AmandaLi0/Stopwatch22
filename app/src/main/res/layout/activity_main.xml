@@ -19,10 +19,10 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <Button
-        android:id="@+id/button_main_stop"
+        android:id="@+id/button_main_restart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop"
+        android:text="Restart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.708"

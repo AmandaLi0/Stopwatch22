@@ -3,6 +3,8 @@ package com.example.stopwatch
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Chronometer
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,9 +14,23 @@ class MainActivity : AppCompatActivity() {
         val TAG = "MainActivity"
     }
 
+    lateinit var buttonStart : Button
+    lateinit var buttonRestart: Button
+    lateinit var chronometer: Chronometer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        wireWidgets()
+        buttonStart.setOnClickListener {
+
+        }
+    }
+
+    private fun wireWidgets() {
+        buttonStart = findViewById(R.id.button_main_start)
+        buttonRestart = findViewById(R.id.button_main_restart)
+        chronometer = findViewById(R.id.chronometer_main_stopwatch)
     }
 
     override fun onStart() {
