@@ -1,7 +1,9 @@
 package com.example.stopwatch
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.widget.Button
 import android.widget.Chronometer
@@ -17,12 +19,37 @@ class MainActivity : AppCompatActivity() {
     lateinit var buttonStart : Button
     lateinit var buttonRestart: Button
     lateinit var chronometer: Chronometer
+    var running = false
+    var base = 0
+    var time = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         wireWidgets()
+
         buttonStart.setOnClickListener {
+            if(!running) {
+                chronometer.base = SystemClock.elapsedRealtime()-time
+                chronometer.start()
+                buttonStart.text = "STOP"
+                buttonStart.setBackgroundColor(Color.RED)
+            }
+            else{
+                chronometer.stop()
+                buttonStart.text = "START"
+                buttonStart.setBackgroundColor(Color.GREEN)
+                time = SystemClock.elapsedRealtime() - chronometer.base
+            }
+            running = !running
+        }
+        buttonRestart.setOnClickListener {
+            if (running) {
+                chronometer.stop()
+                buttonStart.text = "START"
+
+                buttonStart.setBackgroundColor(Color.GREEN)
+            }
 
         }
     }
