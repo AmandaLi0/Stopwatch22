@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var buttonRestart: Button
     lateinit var chronometer: Chronometer
     var running = false
-    var base = 0
     var time = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +46,11 @@ class MainActivity : AppCompatActivity() {
             if (running) {
                 chronometer.stop()
                 buttonStart.text = "START"
-
                 buttonStart.setBackgroundColor(Color.GREEN)
+                chronometer.base = SystemClock.elapsedRealtime()
+            }
+            else{
+                chronometer.base = SystemClock.elapsedRealtime()
             }
 
         }
