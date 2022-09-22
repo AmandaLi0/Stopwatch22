@@ -7,6 +7,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.widget.Button
 import android.widget.Chronometer
+import com.example.stopwatch.MainActivity.Companion.STATE_TIME
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     companion object{
         //all your static constants go here
         val TAG = "MainActivity"
+
+        val STATE_TIME = "display time"
+
     }
 
     lateinit var buttonStart : Button
@@ -27,6 +31,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         wireWidgets()
 
+        if(savedInstanceState != null){
+            time = savedInstanceState.getLong(STATE_TIME)
+            chronometer.base = SystemClock.elapsedRealtime() - time
+            if(!running) {
+                chronometer.base = SystemClock.elapsedRealtime()-time
+                chronometer.start()
+                buttonStart.text = "STOP"
+                buttonStart.setBackgroundColor(Color.RED)
+            }
+            else{
+                chronometer.stop()
+                buttonStart.text = "START"
+                buttonStart.setBackgroundColor(Color.rgb(54, 191,90))
+                time = SystemClock.elapsedRealtime() - chronometer.base
+            }
+            running = !running
+            time = savedInstanceState.getLong(STATE_TIME)
+        }
+
         buttonStart.setOnClickListener {
             if(!running) {
                 chronometer.base = SystemClock.elapsedRealtime()-time
@@ -37,23 +60,30 @@ class MainActivity : AppCompatActivity() {
             else{
                 chronometer.stop()
                 buttonStart.text = "START"
-                buttonStart.setBackgroundColor(Color.GREEN)
+                buttonStart.setBackgroundColor(Color.rgb(54, 191,90))
                 time = SystemClock.elapsedRealtime() - chronometer.base
             }
             running = !running
         }
         buttonRestart.setOnClickListener {
-            if (running) {
-                chronometer.stop()
-                buttonStart.text = "START"
-                buttonStart.setBackgroundColor(Color.GREEN)
-                chronometer.base = SystemClock.elapsedRealtime()
-            }
-            else{
-                chronometer.base = SystemClock.elapsedRealtime()
-            }
-
+            chronometer.stop()
+            buttonStart.text = "START"
+            buttonStart.setBackgroundColor(Color.rgb(54, 191, 90))
+            chronometer.base = SystemClock.elapsedRealtime() + time
         }
+    }
+
+    //preserve state through orientation changes
+    override fun onSaveInstanceState(outState: Bundle) {
+        //calculate display time if currently running
+        if(running){
+            time = SystemClock.elapsedRealtime()- chronometer.base
+        }
+
+        //save key-value pairs to the bundle before the superclass call
+        outState.putLong(STATE_TIME, time)
+
+        super.onSaveInstanceState(outState)
     }
 
     private fun wireWidgets() {

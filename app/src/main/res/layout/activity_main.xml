@@ -37,6 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:scaleX="3"
+        android:scaleY="3"
         app:layout_constraintBottom_toTopOf="@+id/button_main_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
